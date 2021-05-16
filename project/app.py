@@ -19,9 +19,17 @@ class usrInfo(db.Model):
       self.usr = usr
       self.pswd = pswd
    
+@app.route('/')
+def mainred():
+   return redirect("/main")
+   
 @app.route('/main')
 def mainpage():
    global loginUsr
+   if usrInfo.query.filter_by(usr=loginUsr).first():
+      pass
+   else:
+      loginUsr = None
    return render_template("main.html",name = loginUsr)
 
 @app.route('/admin')
@@ -70,7 +78,12 @@ def delete(id):
         return redirect('/admin')
     except:
         return 'There was a problem deleting that task'
- 
+
+@app.route("/logout")
+def logout():
+   global loginUsr
+   loginUsr = None 
+   return redirect('/main')
 
 if __name__ == '__main__':
    db.create_all()

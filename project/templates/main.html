@@ -9,6 +9,7 @@
        <a href = "{{ url_for('new') }}">Create new account</a>
        {% else %}
        <p>logged in as {{name}}</p>
+       <a href="/logout">logout</a>
        {% endif %}
    </body>
 </html>
