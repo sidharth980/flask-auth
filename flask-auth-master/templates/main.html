@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Animated Login Form | CodingNepal</title>
+        <title>Main</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
       </head>
    <body>
@@ -11,21 +11,29 @@
 
     <div class="txt_field">
        {% if name == None %}
-
-      <p align= "center"> <a href = "{{ url_for('login') }}">Login</a>
+       <div style="text-align:center;">
+        <a href = "{{ url_for('login') }}">Login</a>
       </p>
+    </div>
     </div>
     <div class="signup_link">
         <p align="center">
        <a href = "{{ url_for('new') }}">Create new account</a>
         </p>
            {% else %}
+           <div style="text-align:center;">
        <p>logged in as {{name}}</p>
-       <form>
-       <input type = "file" name = "file" />
-        <input type = "submit"/>
-        </form>
+           </div>
+       <br>
+       <br>
+       <div style="text-align:center;">
+        <form>
+        <input type = "file" name = "file" />
+          <input type = "submit"/>
+            </form>
     </div>
+    </div>
+    <br>
     
     <div class="signup_link">
         <p align="center">
