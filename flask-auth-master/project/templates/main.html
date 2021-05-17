@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename="css/style.css")}}">
+      </head>
+   <body>
+       <p>Username : </p>
+       <p>{{name}}</p>
+       <div class="center">
+        <h1>WELCOME TO AUDIOVISUALICA</h1>
+
+    <div class="txt_field">
+       {% if name == None %}
+
+      <p align="center"> <a href = "{{ url_for('login') }}">Login</a>
+      </p>
+    </div>
+    <div class="signup_link">
+        <p align="center">
+       <a href = "{{ url_for('new') }}">Create new account</a>
+        </p>
+           {% else %}
+       <p>logged in as {{name}}</p>
+       
+    </div>
+    
+    <div class="signup_link">
+        <p align="center">
+
+       <a href="/logout">logout</a>
+    </p>
+    </div>
+    <div class="pass">
+        <br>
+
+        
+        <p align="center">
+       {% endif %}
+       <a type -"submit" href = "{{ url_for('change') }}">change password</a>
+    </p>
+    </div>
+
+
+</div>
+   </body>
+</html>

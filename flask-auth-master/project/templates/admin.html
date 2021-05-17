@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang = "en">
+   <head>
+      <meta charset="utf-8">
+      <title>Admin</title>
+      <link rel="stylesheet" type="text/css" href="{{url_for('static',filename="css/style.css")}}">
+    </head>
+   <body>
+      <h3>user</h3>
+      <div class="center">
+      
+      <table>
+         <thead>
+            <tr>
+               <th>Username</th>
+               <th>password</th>
+               <th>Email</th>
+               <th>Option</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for usrinf in usrInfo %}
+               <tr>
+                  <td>{{ usrinf.usr }}</td>
+                  <td>{{ usrinf.pswd }}</td>
+                  <td>{{ usrinf.email }}</td>
+                  <td><a href="/delete/{{usrinf.id}}">del</a></td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   </body>
+</html>
