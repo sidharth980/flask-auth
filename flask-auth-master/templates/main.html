@@ -10,16 +10,19 @@
         <h1>WELCOME TO AUDIOVISUALICA</h1>
 
     <div class="txt_field">
-        <br>
        {% if name == None %}
        <div style="text-align:center;">
+        <br>
+        
         <a class="bloop" href = "{{ url_for('login') }}">Login</a>
       </p>
     </div>
     </div>
-    <div class="signup_link">
+    <br>
+
+    <div class="txt_field">
         <p align="center">
-       <a href = "{{ url_for('new') }}">Create new account</a>
+       <a class="bloop" href = "{{ url_for('new') }}">Create new account</a>
         </p>
            {% else %}
            <div style="text-align:center;">
@@ -45,10 +48,16 @@
     <div class="pass">
         <br>
 
-        
-        <p align="center">
+        <div class="txt_field">
+           
        {% endif %}
-       <a type -"submit" href = "{{ url_for('change') }}">change password</a>
+       <br>
+       <div style="text-align:center;">
+       <a class="bloop" type ="submit" href = "{{ url_for('change') }}">change password</a>
+       <br>
+       <br>
+        </div>
+        </div>
     </p>
     </div>
 
