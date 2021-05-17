@@ -123,6 +123,7 @@ a.bloop {
   cursor: pointer;
   outline: none;
   font-size: 40px;
+  text-decoration: none;
 }
 a.bloop:hover {
   border-color: #2691d9;
