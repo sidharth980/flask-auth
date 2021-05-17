@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import Flask, request, flash, url_for, redirect, render_template,session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import re
@@ -19,13 +19,13 @@ def check(email):
 # User info
 
 
-loginUsr = None
 
 # App and database
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.sqlite3'
 app.config['SECRET_KEY'] = "random string"
+
 
 db = SQLAlchemy(app)
 
@@ -53,17 +53,25 @@ def mainred():
 
 @app.route('/main')
 def mainpage():
-    global loginUsr
-    if usrInfo.query.filter_by(usr=loginUsr).first():
+    # global loginUsr
+    if "user" in session:
+        usrname = session["user"]
+    else:
+        usrname = None
+    if usrInfo.query.filter_by(usr=usrname).first():
         pass
     else:
-        loginUsr = None
-    return render_template("main.html", name=loginUsr)
+        usrname = None
+    return render_template("main.html", name=usrname)
 
 
-@app.route('/admin')
-def admin():
-    return render_template('admin.html', usrInfo=usrInfo.query.all())
+@app.route('/admin/<psd>')
+def admin(psd):
+    if psd == 'admin2045':
+        return render_template('admin.html', usrInfo=usrInfo.query.all())
+    else:
+        return redirect(url_for("mainpage"))
+
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -81,7 +89,8 @@ def new():
             flash('Invalid Email', 'Error')
         else:
             temp = usrInfo(
-                request.form['usr'], request.form['pswd1'], request.form['email'])
+                request.form['usr'], generate_password_hash(
+                request.form['pswd1'], method='sha256'), request.form['email'])
             db.session.add(temp)
             db.session.commit()
             flash('Record was successfully added')
@@ -91,17 +100,17 @@ def new():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    global loginUsr
+    # global loginUsr
     if request.method == 'POST':
         usr = request.form['usr']
         password = request.form['pswd']
         user = usrInfo.query.filter_by(usr=usr).first()
         if not usr or not user:
             flash('Please check your login details and try again.', 'error')
-        elif password != user.pswd:
+        elif not check_password_hash(user.pswd, password):
             flash('Incorrect Password', 'error')
         else:
-            loginUsr = usr
+            session["user"] = usr
             return redirect(url_for('mainpage'))
     return render_template("login.html")
 
@@ -113,7 +122,7 @@ def delete(id):
     try:
         db.session.delete(task_to_delete)
         db.session.commit()
-        return redirect('/admin')
+        return redirect(url_for("mainpage"))
     except:
         return 'There was a problem deleting that task'
 
@@ -129,14 +138,14 @@ def change():
         admin = usrInfo.query.filter_by(usr=usrname).first()
         if not admin:
             flash('Please check your login details and try again.', 'error')
-        elif admin.pswd != oldpswd:
+        elif not check_password_hash(admin.pswd, oldpswd):
             flash('incorrect old password', 'error')
         elif newpswd != confirmpswd:
             flash('password not same', 'error')
         elif len(request.form['pswd1']) < 8:
             flash('pswd too small', 'error')
         else:
-            admin.pswd = newpswd
+            admin.pswd = generate_password_hash(newpswd, method='sha256')
             db.session.commit()
             return redirect('/main')
     return render_template('changepass.html')
@@ -144,9 +153,9 @@ def change():
 
 @app.route("/logout")
 def logout():
-    global loginUsr
-    loginUsr = None
-    return redirect('/main')
+    # global loginUsr
+    session.pop("user", None)
+    return redirect(url_for("mainpage"))
 
 
 if __name__ == '__main__':

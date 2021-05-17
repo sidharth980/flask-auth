@@ -8,7 +8,8 @@
          <thead>
             <tr>
                <th>Username</th>
-               <th>pswd</th>
+               <th>Email</th>
+               <th>Password</th>
             </tr>
          </thead>
 
@@ -16,8 +17,8 @@
             {% for usrinf in usrInfo %}
                <tr>
                   <td>{{ usrinf.usr }}</td>
-                  <td>{{ usrinf.pswd }}</td>
                   <td>{{ usrinf.email }}</td>
+                  <td>{{ usrinf.pswd }}</td>
                   <td><a href="/delete/{{usrinf.id}}">del</a></td>
                </tr>
             {% endfor %}
