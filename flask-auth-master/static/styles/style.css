@@ -204,4 +204,5 @@ a.floop {
 a.floop:hover {
   border-color: #2691d9;
   transition: 0.5s;
+  text-decoration: none;
 }
