@@ -2,14 +2,16 @@
 <html>
    <head>
       <meta charset="utf-8">
-      <title>Animated Login Form | CodingNepal</title>
+      <title>New Account</title>
       <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     </head>
    <body>
     <hr/>
     <div class="center">
-       <h1>Change password</h1>
+       <h1>Create a new Account</h1>
+       <div style="text-align:center;">
     {%- for category, message in get_flashed_messages(with_categories = true) %}
+    </div>
        <div class = "alert alert-danger">
           {{ message }}
        </div>

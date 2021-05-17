@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template,session
+from flask import Flask, request, flash, url_for, redirect, render_template, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import re
@@ -19,9 +19,7 @@ def check(email):
 # User info
 
 
-
 # App and database
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.sqlite3'
 app.config['SECRET_KEY'] = "random string"
@@ -73,7 +71,6 @@ def admin(psd):
         return redirect(url_for("mainpage"))
 
 
-
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     if request.method == 'POST':
@@ -90,7 +87,7 @@ def new():
         else:
             temp = usrInfo(
                 request.form['usr'], generate_password_hash(
-                request.form['pswd1'], method='sha256'), request.form['email'])
+                    request.form['pswd1'], method='sha256'), request.form['email'])
             db.session.add(temp)
             db.session.commit()
             flash('Record was successfully added')
