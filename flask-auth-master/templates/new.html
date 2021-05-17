@@ -9,7 +9,9 @@
     <hr/>
     <div class="center">
        <h1>Create a new Account</h1>
+       <div style="text-align:center;">
     {%- for category, message in get_flashed_messages(with_categories = true) %}
+    </div>
        <div class = "alert alert-danger">
           {{ message }}
        </div>
