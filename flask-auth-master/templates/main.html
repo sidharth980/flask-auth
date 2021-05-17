@@ -23,7 +23,7 @@
 
     <div class="txt_field">
         <p align="center">
-       <a class="bloop" href = "{{ url_for('new') }}">Create new account</a>
+       <a class="floop" href = "{{ url_for('new') }}">Create new account</a>
        <br>
        <br>
         </p>
@@ -33,19 +33,19 @@
            </div>
        <br>
        <br>
-       <div style="text-align:center;">
-        <form>
-        <input type = "file" name = "file" />
-          <input type = "submit"/>
+       
+            <form>
+                <input type = "file" class="custom-file-input" name = "file" />
+                    <br>
+                    <input type = "submit"/>
             </form>
+            
     </div>
-    </div>
-    <br>
     
     <div class="signup_link">
         <p align="center">
 
-       <a class="bloop" href="/logout">logout</a>
+       <a class="bloop" href="/logout">Log  out</a>
     </p>
     </div>
     <div class="pass">
@@ -55,7 +55,7 @@
        {% endif %}
        <br>
        <div style="text-align:center;">
-       <a class="bloop" type ="submit" href = "{{ url_for('change') }}">change password</a>
+       <a class="gloop" type ="submit" href = "{{ url_for('change') }}">change password</a>
        <br>
        <br>
         </div>
