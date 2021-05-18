@@ -1,7 +1,9 @@
-from flask import Flask, request, flash, url_for, redirect, render_template, session
+from flask import Flask, request, flash, url_for, redirect, render_template, session,send_file
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
 import re
+import os
 
 # Functions
 
@@ -16,13 +18,15 @@ def check(email):
     else:
         return True
 
-# User info
+# Upload folder
+UPLOAD_FOLDER = 'savedfile/'
 
 
 # App and database
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.sqlite3'
 app.config['SECRET_KEY'] = "random string"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 db = SQLAlchemy(app)
@@ -41,26 +45,47 @@ class usrInfo(db.Model):
         self.pswd = pswd
         self.email = email
 
-# Route
-
-
+# Routes
 @app.route('/')
 def mainred():
     return redirect("/main")
 
 
-@app.route('/main')
+@app.route('/main',methods=['GET', 'POST'])
 def mainpage():
-    # global loginUsr
+    if request.method == 'POST':
+        if request.files:
+            file = request.files["image"]
+            if file.filename == '':
+                print('no filename')
+                return redirect(request.url)
+            else:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                session["filename"] = filename
+                print("saved file successfully")
+                return redirect(url_for("download"))
     if "user" in session:
         usrname = session["user"]
     else:
         usrname = None
-    if usrInfo.query.filter_by(usr=usrname).first():
-        pass
-    else:
-        usrname = None
+    
     return render_template("main.html", name=usrname)
+
+@app.route('/download')
+def download():
+    if "filename" in session:
+        return render_template("download.html",filename = session["filename"])
+    else:
+        return redirect(url_for("mainpage"))
+    return render_template("download.html",filename = None)
+        
+
+
+@app.route('/return-files/<filename>')
+def return_files_tut(filename):
+    file_path = UPLOAD_FOLDER + filename
+    return send_file(file_path, as_attachment=True, attachment_filename='')
 
 
 @app.route('/admin/<psd>')
