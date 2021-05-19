@@ -150,6 +150,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.sqlite3'
 app.config['SECRET_KEY'] = "random string"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALLOWED_VIDEO_EXTENSIONS'] = ["MP3", "WAV", "AAC", "FLAC"]
+app.config['MAX_IMAGE_FILESIZE'] = 5 * 1024 * 1024  # 5mb
 db = SQLAlchemy(app)
 
 # User Class
@@ -167,6 +168,13 @@ class usrInfo(db.Model):
         self.email = email
 
 # Routes
+
+
+def allowed_image_filesize(filesize):
+    if int(filesize) <= app.config['MAX_IMAGE_FILESIZE']:
+        return True
+    else:
+        return False
 
 
 def allowed_video(filename):
@@ -196,6 +204,13 @@ def mainpage():
                 print('no filename')
                 return redirect(request.url)
             else:
+                file.seek(0, 2)
+                file_length = file.tell()
+                if not allowed_image_filesize(file_length):
+                    flash("Please put file less than 5MB")
+                    return redirect(request.url)
+                file.seek(0)
+
                 if not allowed_video(file.filename):
                     flash("This Video extension is not Allowed")
                     return redirect(request.url)
@@ -287,12 +302,14 @@ def login():
             return redirect(url_for('mainpage'))
     return render_template("login.html")
 
+
 @app.route("/adminclear")
 def adminclear():
     for f in os.listdir(UPLOAD_FOLDER):
         if f != "keep.txt":
             os.remove(os.path.join(UPLOAD_FOLDER, f))
     return redirect(url_for("mainpage"))
+
 
 @app.route('/delete/<int:id>')
 def delete(id):
