@@ -266,6 +266,11 @@ def login():
             return redirect(url_for('mainpage'))
     return render_template("login.html")
 
+@app.route("/adminclear")
+def adminclear():
+    for f in os.listdir(UPLOAD_FOLDER):
+        os.remove(os.path.join(UPLOAD_FOLDER, f))
+    return redirect(url_for("mainpage"))
 
 @app.route('/delete/<int:id>')
 def delete(id):
