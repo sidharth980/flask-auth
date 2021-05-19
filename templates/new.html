@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>New Account</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+      <link rel="icon"  href="{{ url_for('static',filename='styles/images/icon bfh.jpg') }}">
+    </head>
+   <body>
+    <hr/>
+    <div class="center">
+       <h1>Create a new Account</h1>
+       <div style="text-align:center;">
+    {%- for category, message in get_flashed_messages(with_categories = true) %}
+    </div>
+       <div class = "alert alert-danger">
+         <div style="text-align:center;"> 
+          {{ message }}
+          </div>
+       </div>
+    {%- endfor %}
+
+      <form action = "{{ request.path }}" method = "post">
+         <div class="txt_field">
+                <label for = "name">Username</label>
+                <br>
+                <br>
+               <input type = "text" name = "usr"  />
+              
+         </div>
+         <div class="txt_field">
+               <label for = "name">Email</label>
+               <br>
+               <br>
+               <input type = "email" name = "email" />
+              
+         </div>
+         <div class="txt_field">
+               <label for = "email">Password</label>
+               <br>
+               <br>
+               <input type = "password" name = "pswd1"  />
+               
+         </div>
+         <div class="txt_field">
+            <label for = "email">Confirm Password</label>
+            <br>
+            <br>
+            <input type = "password" name = "pswd2" />
+            
+         </div>   
+          <div class="signup_link">
+               <input type = "submit" value = "Sign up" />
+               
+      </form>
+   </div>
+   </body>
+</html>
