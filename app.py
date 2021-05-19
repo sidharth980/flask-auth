@@ -83,7 +83,8 @@ def main(filename):
         #     bar_count += 1
         bar_heights = []
         for i in range(0, max_freq, freq_step):
-            x = np.mean(spectrogram[int(i*freq_index_ratio):int((i+freq_step)*freq_index_ratio), time_frame])
+            x = np.mean(spectrogram[int(i*freq_index_ratio)
+                        :int((i+freq_step)*freq_index_ratio), time_frame])
             bar_heights.append(bar_max_height*(80+x)/80)
         no_of_available_divisions = len(bar_heights)
         for each in bars:
@@ -204,6 +205,19 @@ def download():
     else:
         return redirect(url_for("mainpage"))
     return render_template("download.html", filename=None)
+
+
+@app.route('/progress')
+def progress():
+    def generate():
+        x = 0
+
+        while x <= 100:
+            yield "data:" + str(x) + "\n\n"
+            x = x + 10
+            time.sleep(0.5)
+
+    return Response(generate(), mimetype='text/event-stream')
 
 
 @app.route('/return-files/<filename>')
