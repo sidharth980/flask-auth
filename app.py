@@ -209,7 +209,7 @@ def mainpage():
         usrname = session["user"]
     else:
         usrname = None
-
+    print(usrname)
     return render_template("main.html", name=usrname)
 
 
