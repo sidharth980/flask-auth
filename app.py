@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template, session,send_file
+from flask import Flask, request, flash, url_for, redirect, render_template, session, send_file
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
@@ -83,7 +83,7 @@ def main(filename):
         #     bar_count += 1
         bar_heights = []
         for i in range(0, max_freq, freq_step):
-            x = np.mean(spectrogram[int(i*freq_index_ratio)                        :int((i+freq_step)*freq_index_ratio), time_frame])
+            x = np.mean(spectrogram[int(i*freq_index_ratio):int((i+freq_step)*freq_index_ratio), time_frame])
             bar_heights.append(bar_max_height*(80+x)/80)
         no_of_available_divisions = len(bar_heights)
         for each in bars:
@@ -105,10 +105,10 @@ def main(filename):
     video.release()
 
     input_video = ffmpeg.input(VidName)
-    input_audio = ffmpeg.input( UPLOAD_FOLDER + filename)
+    input_audio = ffmpeg.input(UPLOAD_FOLDER + filename)
     try:
         ffmpeg.concat(input_video, input_audio, v=1, a=1).output(
-           UPLOAD_FOLDER + filename+'_finished.mp4').run()
+            UPLOAD_FOLDER + filename+'_finished.mp4').run()
     except ffmpeg.Error as e:
         print(e.stderr)
     if os.path.exists(VidName):
@@ -127,6 +127,7 @@ def clamp(min_value, max_value, value):
 
 # Functions
 
+
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 
 
@@ -138,6 +139,7 @@ def check(email):
     else:
         return True
 
+
 # Upload folder
 UPLOAD_FOLDER = 'savedfile/'
 
@@ -147,8 +149,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.sqlite3'
 app.config['SECRET_KEY'] = "random string"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
+app.config['ALLOWED_VIDEO_EXTENSIONS'] = ["MP3", "WAV", "AAC", "FLAC"]
 db = SQLAlchemy(app)
 
 # User Class
@@ -166,12 +167,27 @@ class usrInfo(db.Model):
         self.email = email
 
 # Routes
+
+
+def allowed_video(filename):
+
+    if not "." in filename:
+        return False
+
+    ext = filename.rsplit(".", 1)[1]
+
+    if ext.upper() in app.config['ALLOWED_VIDEO_EXTENSIONS']:
+        return True
+    else:
+        return False
+
+
 @app.route('/')
 def mainred():
     return redirect("/main")
 
 
-@app.route('/main',methods=['GET', 'POST'])
+@app.route('/main', methods=['GET', 'POST'])
 def mainpage():
     if request.method == 'POST':
         if request.files:
@@ -180,6 +196,10 @@ def mainpage():
                 print('no filename')
                 return redirect(request.url)
             else:
+                if not allowed_video(file.filename):
+                    flash("This Video extension is not Allowed")
+                    return redirect(request.url)
+
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 print("saved file successfully")
@@ -189,10 +209,11 @@ def mainpage():
         usrname = session["user"]
     else:
         usrname = None
-    
+
     return render_template("main.html", name=usrname)
 
-@app.route('/convirting',methods=['GET', 'POST'])
+
+@app.route('/convirting', methods=['GET', 'POST'])
 def convirting():
     if request.method == "POST":
         filename = session["filename"]
@@ -202,14 +223,14 @@ def convirting():
         return redirect(url_for("download"))
     return render_template("convirting.html")
 
+
 @app.route('/download')
 def download():
     if "filename" in session:
-        return render_template("download.html",filename = session["filename"])
+        return render_template("download.html", filename=session["filename"])
     else:
         return redirect(url_for("mainpage"))
-    return render_template("download.html",filename = None)
-        
+    return render_template("download.html", filename=None)
 
 
 @app.route('/return-files/<filename>')

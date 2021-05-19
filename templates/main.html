@@ -10,6 +10,10 @@
         <h1>WELCOME TO AUDIOVISUALICA</h1>
 
     <div class="txt_field">
+        {%- for category, message in get_flashed_messages(with_categories = true) %}
+        <div style="text-align:center;">  {{ message }} </div>
+        {%- endfor %}
+
        {% if name == None %}
        <div style="text-align:center;">
         <br>

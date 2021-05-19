@@ -13,7 +13,9 @@
     {%- for category, message in get_flashed_messages(with_categories = true) %}
    </div>
        <div class = "alert alert-danger">
+         <div style="text-align:center;">
           {{ message }}
+          </div>
        </div>
     {%- endfor %}
       <form action = "{{ request.path }}" method = "post">
