@@ -1,5 +1,4 @@
 ffmpeg_python==0.2.0
-opencv_python==4.5.2.52
 librosa==0.8.0
 numpy==1.19.5
 Flask==1.1.1
