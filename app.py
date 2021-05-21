@@ -257,6 +257,7 @@ def converting():
     global rederdercomplete
     print(rederdercomplete)
     if rederdercomplete  and session["filename"] != None:
+        rederdercomplete == False
         filename = session["filename"]
         session["filename"] = f'{filename}_finished.mp4'
         print(session["filename"])
