@@ -203,3 +203,27 @@ a.floop:hover {
   text-decoration: none;
 }
 
+.dloop {
+  display: inline-flexbox;
+  text-align: center;
+  padding-top: 10px;
+  padding-right: 125px;
+  padding-bottom: 10px;
+  padding-left: 125px;
+  width: 100%;
+  border: 1px solid;
+  background: #2691d9;
+  border-radius: 20px;
+  color: #e9f4fb;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  font-size: 18px;
+  text-decoration: none;
+  margin: 30px 0;
+}
+a.dloop:hover {
+  border-color: #2691d9;
+  transition: 0.5s;
+  text-decoration: none;
+}

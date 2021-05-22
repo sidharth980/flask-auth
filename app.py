@@ -12,9 +12,9 @@ import cv2 as cv
 import librosa
 import ffmpeg
 
-screen_width = 1920
-screen_height = 1080
-FPS = 60
+screen_width = 1280
+screen_height = 720
+FPS = 30
 seconds = 10
 no_of_bars = 100
 left_space = 10
@@ -257,6 +257,7 @@ def converting():
     global rederdercomplete
     print(rederdercomplete)
     if rederdercomplete  and session["filename"] != None:
+        rederdercomplete == False
         filename = session["filename"]
         session["filename"] = f'{filename}_finished.mp4'
         print(session["filename"])
