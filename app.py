@@ -282,7 +282,7 @@ def convirting():
 def converting():
     global rederdercomplete,renderfilename
     print(rederdercomplete)
-    if rederdercomplete  and session["filename"] != renderfilename:
+    if rederdercomplete  and session["filename"] == renderfilename:
         rederdercomplete == False
         filename = session["filename"]
         session["filename"] = f'{filename}_finished.mp4'
