@@ -26,11 +26,10 @@
     <br>
     <br>
 
-    <div class="txt_field">
+    <div  style="text-align:center;" class="txt_field">
     <a class="floop" href = "{{ url_for('new') }}">Create New Account</a>
        <br>
        <br>
-        </p>
            {% else %}
            <div style="text-align:center;">
        <p>logged in as {{name}}</p>
@@ -50,10 +49,12 @@
        </div>
 
        <br>
-
+       
         <div class="txt_field">
            
        {% endif %}
+       <br>
+
        <div style="text-align:center;">
        <a class="gloop" type ="submit" href = "{{ url_for('change') }}">Change Password</a>
        <br>
