@@ -27,8 +27,7 @@
     <br>
 
     <div class="txt_field">
-        <p align="center">
-    <a class="floop" href = "{{ url_for('new') }}">Create new account</a>
+    <a class="floop" href = "{{ url_for('new') }}">Create New Account</a>
        <br>
        <br>
         </p>
@@ -44,26 +43,23 @@
                     <input type = "submit" value="Upload"/>
             </form>
     </div>
-    
-    <div class="signup_link">
-        <p align="center">
+    <br>
+    <div style="text-align:center;">
 
-       <a class="bloop" href="/logout">Log  out</a>
-    </p>
-    </div>
-    <div >
+       <a class="bloop" href="/logout">Log  Out</a>
+       </div>
+
+       <br>
 
         <div class="txt_field">
            
        {% endif %}
-       <br>
        <div style="text-align:center;">
-       <a class="gloop" type ="submit" href = "{{ url_for('change') }}">change password</a>
+       <a class="gloop" type ="submit" href = "{{ url_for('change') }}">Change Password</a>
        <br>
        <br>
         </div>
-        </div>
-    </p>
+
     </div>
 
 
