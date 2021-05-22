@@ -145,9 +145,11 @@ def main(filename):
         print(e.stderr)
     if os.path.exists(VidName):
         os.remove(VidName)
-    global rederdercomplete
+    global rederdercomplete,renderfilename
     rederdercomplete =  True
+    print(renderfilename)
     renderfilename = filename
+    print(renderfilename)
     print("Render Complete")
 
 
@@ -282,6 +284,9 @@ def convirting():
 def converting():
     global rederdercomplete,renderfilename
     print(rederdercomplete)
+    if rederdercomplete:
+        print(renderfilename)
+        print(session["filename"])
     if rederdercomplete  and session["filename"] == renderfilename:
         rederdercomplete == False
         filename = session["filename"]
