@@ -333,9 +333,13 @@ def login():
 
 @app.route("/adminclear")
 def adminclear():
+    global rederdercomplete
     for f in os.listdir(UPLOAD_FOLDER):
         if f != "keep.txt":
             os.remove(os.path.join(UPLOAD_FOLDER, f))
+    if "filename" in session:
+        session.pop("filename", None)
+    rederdercomplete = False
     return redirect(url_for("mainpage"))
 
 
