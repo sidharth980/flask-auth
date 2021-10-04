@@ -1,2 +1,2 @@
 # trialbfh -2021
-Music Visualiser
+Music Visualiser 2.0
